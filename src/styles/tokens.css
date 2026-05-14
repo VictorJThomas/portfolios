@@ -1,0 +1,31 @@
+:root {
+  /* ── Neutrals ── */
+  --c-cream: #F2E8D0;
+  --c-cream-warm: #EFE3C4;
+  --c-cream-deep: #E5D6B2;
+  --c-ink: #15262E;
+  --c-paper-back: #E8DEC4;
+
+  /* ── Per-screen palettes ── */
+  --teal: #2D4D5C;
+  --teal-deep: #1F3946;
+  --blush: #E8B7B0;
+  --blush-deep: #D89B95;
+  --mustard: #D4B055;
+  --mustard-deep: #B89538;
+  --forest: #4A5D3E;
+  --forest-deep: #36462C;
+  --wine: #7D3340;
+  --wine-deep: #5F2530;
+  --parchment: #E7D9B8;
+  --mauve: #B69CB5;
+  --mauve-deep: #8E7691;
+
+  /* ── Typography ── */
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-body: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Animation ── */
+  --turn-ms: 900ms;
+}
