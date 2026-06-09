@@ -18,17 +18,14 @@ interface Props {
 export function TopNav({ current, go, ink = 'var(--c-cream)' }: Props) {
   return (
     <header
+      className="topnav"
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '18px 28px',
         borderBottom: `1px solid ${ink}33`,
         color: ink,
-        flexShrink: 0,
       }}
     >
       <button
+        className="topnav__brand"
         onClick={() => go('home')}
         style={{
           border: `1px solid ${ink}88`,
@@ -50,7 +47,7 @@ export function TopNav({ current, go, ink = 'var(--c-cream)' }: Props) {
         Est. 2014
       </button>
 
-      <nav style={{ display: 'flex', gap: 30 }}>
+      <nav className="topnav__nav">
         {NAV.map((n) => (
           <button
             key={n.id}
@@ -58,7 +55,7 @@ export function TopNav({ current, go, ink = 'var(--c-cream)' }: Props) {
             style={{
               fontFamily: 'var(--font-body)',
               fontStyle: 'italic',
-              fontSize: 17,
+              fontSize: 'clamp(14px, 1.6vw, 17px)',
               color: ink,
               opacity: current === n.id ? 1 : 0.78,
               borderBottom:
@@ -78,7 +75,7 @@ export function TopNav({ current, go, ink = 'var(--c-cream)' }: Props) {
         ))}
       </nav>
 
-      <div style={{ width: 24, height: 24 }} />
+      <div className="topnav__spacer" />
     </header>
   )
 }

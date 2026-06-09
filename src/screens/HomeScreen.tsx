@@ -15,16 +15,8 @@ export function HomeScreen({ go }: Props) {
     <PageFrame bg="var(--teal)" ink={INK}>
       <TopNav current="home" go={go} ink={INK} />
 
-      <div style={{ padding: '22px 28px 0', textAlign: 'center', flexShrink: 0 }}>
-        <div
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 900,
-            fontSize: 'clamp(58px, 11vw, 150px)',
-            color: 'var(--c-cream)',
-            lineHeight: '.88',
-          }}
-        >
+      <div style={{ padding: 'clamp(14px, 2.4vw, 22px) clamp(16px, 3vw, 28px) 0', textAlign: 'center', flexShrink: 0 }}>
+        <div className="home-title" style={{ color: 'var(--c-cream)' }}>
           THE
           <br />
           DEVELOPER
@@ -32,23 +24,8 @@ export function HomeScreen({ go }: Props) {
       </div>
 
       {/* Hero workspace strip */}
-      <div
-        style={{
-          position: 'relative',
-          margin: '22px 28px 0',
-          padding: 14,
-          background: 'var(--blush)',
-          flexShrink: 0,
-        }}
-      >
-        <div
-          style={{
-            position: 'relative',
-            aspectRatio: '16 / 6',
-            background: '#314B40',
-            overflow: 'hidden',
-          }}
-        >
+      <div className="home-hero" style={{ background: 'var(--blush)' }}>
+        <div className="home-hero__inner">
           <Workspace />
 
           <div
@@ -146,15 +123,7 @@ export function HomeScreen({ go }: Props) {
       </div>
 
       {/* Category cards */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 18,
-          padding: '22px 28px 12px',
-          flexShrink: 0,
-        }}
-      >
+      <div className="home-cards">
         {CARDS.map((c) => (
           <button
             key={c.target}

@@ -13,29 +13,53 @@ export function ContactScreen({ go }: Props) {
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('A modest proposal')
   const [msg, setMsg] = useState('')
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-  function send(e: React.FormEvent) {
+  const sent = status === 'sent'
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  const canSend = name.trim() !== '' && emailValid && msg.trim() !== ''
+
+  async function send(e: React.FormEvent) {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 4500)
+    if (status === 'sending' || !canSend) return
+    setStatus('sending')
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+          name,
+          email,
+          subject: subject || 'New message from portfolio',
+          message: msg,
+          from_name: 'Portfolio — Post Office',
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setStatus('sent')
+        setName('')
+        setEmail('')
+        setSubject('A modest proposal')
+        setMsg('')
+        setTimeout(() => setStatus('idle'), 4500)
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
     <PageFrame bg="var(--mauve)" ink="var(--teal-deep)">
       <TopNav current="contact" go={go} ink="var(--teal-deep)" />
 
-      <div style={{ flex: 1, overflow: 'auto', padding: '32px 64px 36px' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            alignItems: 'end',
-            borderBottom: '1px solid var(--teal-deep)',
-            paddingBottom: 18,
-            marginBottom: 28,
-          }}
-        >
+      <div className="screen-scroll screen-pad-tight">
+        <div className="page-header-row" style={{ borderBottomColor: 'var(--teal-deep)' }}>
           <div>
             <div
               style={{
@@ -49,13 +73,7 @@ export function ContactScreen({ go }: Props) {
             >
               Volume V
             </div>
-            <h1
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(46px, 7.5vw, 110px)',
-                margin: 0,
-              }}
-            >
+            <h1 className="hero-title">
               POST
               <br />
               OFFICE
@@ -79,7 +97,7 @@ export function ContactScreen({ go }: Props) {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 44 }}>
+        <div className="contact-grid">
           {/* Letter form */}
           <form
             onSubmit={send}
@@ -131,7 +149,7 @@ export function ContactScreen({ go }: Props) {
               value={msg}
               onChange={setMsg}
               multiline
-              placeholder={`Dear Sir/Madam,\n\nI write to you concerning…`}
+              placeholder={`Dear Victor,\n\nI write to you concerning…`}
             />
 
             <div
@@ -142,11 +160,26 @@ export function ContactScreen({ go }: Props) {
                 marginTop: 22,
               }}
             >
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, opacity: 0.6 }}>
-                {sent ? '✓ Letter posted. Reply within 48 hours.' : 'Posted via certified courier.'}
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 9,
+                  opacity: 0.6,
+                  color: status === 'error' ? 'var(--wine)' : 'inherit',
+                }}
+              >
+                {status === 'sent'
+                  ? '✓ Letter posted. Reply within 48 hours.'
+                  : status === 'sending'
+                    ? 'Sealing the envelope…'
+                    : status === 'error'
+                      ? '✗ The courier stumbled. Please try again.'
+                      : 'Posted via certified courier.'}
               </div>
               <button
                 type="submit"
+                disabled={status === 'sending' || !canSend}
+                title={canSend ? undefined : 'Fill in From, Return address & Dispatch first'}
                 style={{
                   padding: '10px 22px',
                   border: '1.5px solid var(--teal-deep)',
@@ -156,24 +189,26 @@ export function ContactScreen({ go }: Props) {
                   fontSize: 11,
                   letterSpacing: '.18em',
                   textTransform: 'uppercase',
-                  transition: 'background .25s, color .25s',
+                  cursor: status === 'sending' ? 'wait' : !canSend ? 'not-allowed' : 'pointer',
+                  opacity: status === 'sending' || !canSend ? 0.6 : 1,
+                  transition: 'background .25s, color .25s, opacity .25s',
                 }}
               >
-                {sent ? 'Sent ✓' : 'Post Letter →'}
+                {status === 'sent' ? 'Sent ✓' : status === 'sending' ? 'Posting…' : 'Post Letter →'}
               </button>
             </div>
           </form>
 
           {/* Side info */}
           <div>
-            <InfoBlock title="Directly" lines={['hello@yourportfolio.dev']} />
+            <InfoBlock title="Directly" lines={['victorjthomas10@gmail.com', '(+1) 829-826-9264']} />
             <InfoBlock
               title="Hours of Reply"
               lines={['Mon – Thu · 09:00 – 17:00 PT', 'Friday · letters only', 'Weekends · in the garden']}
             />
             <InfoBlock
               title="Find Me Elsewhere"
-              lines={['GitHub · @VictorJThomas', 'LinkedIn · /in/victorjthomas']}
+              lines={['GitHub · @VictorJThomas', 'LinkedIn · /in/victor-j-thomas']}
             />
 
             <div
@@ -222,7 +257,10 @@ function Field({
 }) {
   const fieldStyle: React.CSSProperties = {
     width: '100%',
-    borderBottom: '1px solid var(--teal-deep)',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottom: '0.8px solid var(--teal-deep)',
     background: 'transparent',
     padding: '6px 0',
     fontFamily: 'var(--font-body)',

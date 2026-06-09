@@ -13,8 +13,8 @@ export function ProjectsScreen({ go }: Props) {
     <PageFrame bg="var(--blush)" ink="var(--teal-deep)">
       <TopNav current="projects" go={(id) => go(id)} ink="var(--teal-deep)" />
 
-      <div style={{ flex: 1, overflow: 'auto', padding: '44px 64px 48px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 38 }}>
+      <div className="screen-scroll screen-pad">
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(22px, 3vw, 38px)' }}>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
@@ -27,14 +27,7 @@ export function ProjectsScreen({ go }: Props) {
           >
             Volume II
           </div>
-          <h1
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(40px, 6vw, 88px)',
-              margin: 0,
-              color: 'var(--teal-deep)',
-            }}
-          >
+          <h1 className="hero-title hero-title--md" style={{ color: 'var(--teal-deep)' }}>
             CATALOGUE OF DIGITAL ARTIFACTS
           </h1>
           <p
@@ -50,13 +43,7 @@ export function ProjectsScreen({ go }: Props) {
           </p>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '32px 36px',
-          }}
-        >
+        <div className="grid-3">
           {projects.map((p) => (
             <ProjectCard
               key={p.id}
@@ -157,8 +144,16 @@ function ProjectCard({ no, title, year, tech, color, icon, onOpen }: CardProps) 
   )
 }
 
-function PosterIcon({ kind }: { kind: string }) {
+export function PosterIcon({ kind }: { kind: string }) {
   const style: React.CSSProperties = { width: '38%', height: '38%', color: 'var(--c-cream)' }
+  if (kind === 'brain')
+    return (
+      <svg viewBox="0 0 100 100" style={style} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M50 22 V82" />
+        <path d="M50 30 C50 22 42 16 34 18 C26 20 24 28 28 32 C20 34 20 44 27 46 C20 50 24 60 32 60 C30 68 38 74 46 70 C48 76 50 78 50 78" />
+        <path d="M50 30 C50 22 58 16 66 18 C74 20 76 28 72 32 C80 34 80 44 73 46 C80 50 76 60 68 60 C70 68 62 74 54 70 C52 76 50 78 50 78" />
+      </svg>
+    )
   if (kind === 'compass')
     return (
       <svg viewBox="0 0 100 100" style={style} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">

@@ -18,6 +18,12 @@ export interface Project {
   description: string
   url?: string
   repo?: string
+  role?: string
+  duration?: string
+  team?: string
+  pullQuote?: string
+  stats?: { label: string; value: string }[]
+  sections?: { title: string; body: string }[]
 }
 
 export interface ExperienceEntry {

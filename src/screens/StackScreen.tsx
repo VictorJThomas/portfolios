@@ -9,39 +9,39 @@ interface Props {
 
 const CATEGORIES = [
   {
-    title: 'Languages',
-    items: [
-      { name: 'TypeScript', note: 'Daily driver', level: 5 },
-      { name: 'Rust', note: 'Systems & CLIs', level: 4 },
-      { name: 'Python', note: 'Data & glue', level: 4 },
-      { name: 'Go', note: 'Services', level: 3 },
-    ],
-  },
-  {
     title: 'Frontend',
     items: [
-      { name: 'React', note: 'v18, RSC-curious', level: 5 },
-      { name: 'Next.js', note: 'App Router', level: 5 },
-      { name: 'Svelte', note: 'Personal projects', level: 4 },
-      { name: 'Vue 3', note: 'Composition API', level: 3 },
+      { name: 'React', note: 'v18 — daily driver', level: 5 },
+      { name: 'Next.js', note: 'App Router + RSC', level: 5 },
+      { name: 'Angular', note: 'Enterprise platforms', level: 5 },
+      { name: 'TypeScript', note: 'ES6+ everywhere', level: 5 },
     ],
   },
   {
-    title: 'Backend',
+    title: 'Mobile',
     items: [
-      { name: 'Node.js', note: 'Fastify / tRPC', level: 5 },
-      { name: 'Postgres', note: 'Relational of choice', level: 5 },
-      { name: 'Redis', note: 'Caches & queues', level: 4 },
-      { name: 'GraphQL', note: 'Federation', level: 4 },
+      { name: 'React Native', note: 'Expo · App Store shipped', level: 5 },
+      { name: 'Tamagui', note: 'Cross-platform UI', level: 4 },
+      { name: 'FlashList', note: 'High-perf lists', level: 4 },
+      { name: 'iOS / Android', note: 'Both targets', level: 4 },
     ],
   },
   {
-    title: 'Operations',
+    title: 'Backend & Data',
     items: [
-      { name: 'AWS', note: 'Reluctantly fluent', level: 4 },
-      { name: 'Terraform', note: 'Infra-as-code', level: 4 },
-      { name: 'Docker', note: 'Containers', level: 5 },
-      { name: 'Linux', note: 'Daily', level: 5 },
+      { name: 'Node.js', note: 'Express · REST', level: 5 },
+      { name: 'PostgreSQL', note: 'Schema · queries', level: 5 },
+      { name: 'Supabase', note: 'Auth · realtime', level: 4 },
+      { name: 'MongoDB', note: 'MERN stack', level: 4 },
+    ],
+  },
+  {
+    title: 'DevOps & Cloud',
+    items: [
+      { name: 'GitHub Actions', note: 'CI/CD pipelines', level: 5 },
+      { name: 'Docker', note: 'Containers', level: 4 },
+      { name: 'AWS Amplify', note: 'Deployments', level: 4 },
+      { name: 'Azure', note: 'Enterprise infra', level: 3 },
     ],
   },
 ]
@@ -51,8 +51,8 @@ export function StackScreen({ go }: Props) {
     <PageFrame bg="var(--wine)" ink="var(--c-cream)">
       <TopNav current="stack" go={go} ink="var(--c-cream)" />
 
-      <div style={{ flex: 1, overflow: 'auto', padding: '38px 64px 40px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 30 }}>
+      <div className="screen-scroll screen-pad">
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(20px, 3vw, 30px)' }}>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
@@ -65,14 +65,7 @@ export function StackScreen({ go }: Props) {
           >
             Volume IV
           </div>
-          <h1
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(46px, 8vw, 110px)',
-              margin: 0,
-              color: 'var(--c-cream)',
-            }}
-          >
+          <h1 className="hero-title" style={{ color: 'var(--c-cream)' }}>
             INVENTORY OF INSTRUMENTS
           </h1>
           <p
@@ -81,7 +74,7 @@ export function StackScreen({ go }: Props) {
               fontStyle: 'italic',
               fontSize: 17,
               marginTop: 12,
-              opacity: 0.85,
+              color: 'var(--c-cream)',
               maxWidth: 640,
               marginInline: 'auto',
             }}
@@ -91,7 +84,7 @@ export function StackScreen({ go }: Props) {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 30 }}>
+        <div className="grid-2">
           {CATEGORIES.map((cat, i) => (
             <div
               key={cat.title}
@@ -111,6 +104,7 @@ export function StackScreen({ go }: Props) {
                   padding: '0 10px',
                   fontFamily: 'var(--font-mono)',
                   fontSize: 11,
+                  color: 'var(--c-cream)',
                 }}
               >
                 Cabinet {String.fromCharCode(65 + i)} — {cat.title}
@@ -131,15 +125,15 @@ export function StackScreen({ go }: Props) {
                         style={{
                           fontFamily: 'var(--font-mono)',
                           fontSize: 10,
-                          opacity: 0.55,
+                          color: 'var(--c-cream)',
                           padding: '10px 0',
                           width: 30,
                         }}
                       >
                         {String(j + 1).padStart(2, '0')}
                       </td>
-                      <td style={{ padding: '10px 0' }}>
-                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 19 }}>
+                      <td style={{ padding: '10px 0', color: 'var(--c-cream)' }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 19, color: 'var(--c-cream)' }}>
                           {item.name}
                         </div>
                         <div
@@ -147,7 +141,7 @@ export function StackScreen({ go }: Props) {
                             fontFamily: 'var(--font-body)',
                             fontStyle: 'italic',
                             fontSize: 13,
-                            opacity: 0.8,
+                            color: 'var(--c-cream)',
                           }}
                         >
                           {item.note}
@@ -169,7 +163,7 @@ export function StackScreen({ go }: Props) {
             marginTop: 28,
             fontFamily: 'var(--font-mono)',
             fontSize: 10,
-            opacity: 0.65,
+            color: 'var(--c-cream)',
             textAlign: 'center',
           }}
         >

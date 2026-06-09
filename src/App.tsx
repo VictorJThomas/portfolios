@@ -158,7 +158,7 @@ export function App() {
   return (
     <>
       <PageTurn current={current} prev={prev} turning={turning} tweaks={tweaks} go={go} />
-      <TweaksPanel tweaks={tweaks} patch={patch} go={go} />
+      {import.meta.env.DEV && <TweaksPanel tweaks={tweaks} patch={patch} go={go} />}
       <AudioHint />
     </>
   )

@@ -1,5 +1,6 @@
 import { TopNav } from '../components/layout/TopNav'
 import { PageFrame } from '../components/layout/PageFrame'
+import { PosterIcon } from './ProjectsScreen'
 import { projects } from '../data/projects'
 import type { ScreenId } from '../data/types'
 
@@ -15,7 +16,7 @@ export function ProjectDetailScreen({ go, projectId }: Props) {
     <PageFrame bg="var(--parchment)" ink="var(--teal-deep)">
       <TopNav current="projects" go={go} ink="var(--teal-deep)" />
 
-      <div style={{ flex: 1, overflow: 'auto', padding: '30px 64px 36px' }}>
+      <div className="screen-scroll screen-pad-tight">
         <div style={{ marginBottom: 18, display: 'flex', gap: 14, alignItems: 'center' }}>
           <button
             onClick={() => go('projects')}
@@ -46,27 +47,12 @@ export function ProjectDetailScreen({ go, projectId }: Props) {
           </span>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr auto',
-            alignItems: 'end',
-            gap: 30,
-            borderBottom: '1px solid currentColor',
-            paddingBottom: 18,
-          }}
-        >
+        <div className="pd-head">
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, marginBottom: 8 }}>
               Chapter {project.no} — {project.year}
             </div>
-            <h1
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(46px, 6.4vw, 92px)',
-                margin: 0,
-              }}
-            >
+            <h1 className="hero-title hero-title--md">
               {project.title}
             </h1>
           </div>
@@ -79,13 +65,13 @@ export function ProjectDetailScreen({ go, projectId }: Props) {
             }}
           >
             <div>Stack ......... {project.tech.join(' / ')}</div>
-            <div>Role .......... Lead Engineer</div>
-            <div>Duration ...... 11 months</div>
-            <div>Team .......... 4 souls</div>
+            <div>Role .......... {project.role ?? 'Lead Engineer'}</div>
+            <div>Duration ...... {project.duration ?? '—'}</div>
+            <div>Team .......... {project.team ?? 'Solo'}</div>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 38, marginTop: 28 }}>
+        <div className="pd-main">
           <div style={{ background: '#F2E8D0', padding: 12 }}>
             <div
               style={{
@@ -97,7 +83,9 @@ export function ProjectDetailScreen({ go, projectId }: Props) {
                 outline: '1px solid rgba(255,255,255,.6)',
                 outlineOffset: -8,
               }}
-            />
+            >
+              <PosterIcon kind={project.icon} />
+            </div>
             <div
               style={{
                 display: 'grid',
@@ -110,6 +98,13 @@ export function ProjectDetailScreen({ go, projectId }: Props) {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15 }}>{project.title}</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, opacity: 0.55 }}>{project.year}</div>
             </div>
+
+            {(project.url || project.repo) && (
+              <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                {project.url && <LinkButton href={project.url} label="View Demo ↗" />}
+                {project.repo && <LinkButton href={project.repo} label="Source ↗" />}
+              </div>
+            )}
           </div>
 
           <div>
@@ -127,47 +122,86 @@ export function ProjectDetailScreen({ go, projectId }: Props) {
             <p style={{ fontSize: 19, lineHeight: 1.5, fontFamily: 'var(--font-body)', marginTop: 0 }}>
               {project.description}
             </p>
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontStyle: 'italic',
-                fontSize: 17,
-                lineHeight: 1.55,
-                color: 'var(--wine)',
-              }}
-            >
-              "We approached the codebase as one might restore a Hapsburg ballroom — with reverence,
-              restraint, and the occasional dramatic flourish."
-            </p>
+            {project.pullQuote && (
+              <p
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontStyle: 'italic',
+                  fontSize: 17,
+                  lineHeight: 1.55,
+                  color: 'var(--wine)',
+                }}
+              >
+                {project.pullQuote}
+              </p>
+            )}
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22, marginTop: 22 }}>
-              <Stat label="Bundle size" value="− 62%" />
-              <Stat label="Time to interactive" value="0.8s" />
-              <Stat label="Lighthouse" value="100 / 100" />
+            <div className="grid-3" style={{ marginTop: 22 }}>
+              {(project.stats ?? [
+                { label: 'Bundle size', value: '— 62%' },
+                { label: 'Time to interactive', value: '0.8s' },
+                { label: 'Lighthouse', value: '100 / 100' },
+              ]).map((s) => (
+                <Stat key={s.label} label={s.label} value={s.value} />
+              ))}
             </div>
           </div>
         </div>
 
-        <div style={{ marginTop: 38, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 38 }}>
-          <Section
-            title="The Challenge"
-            body="The previous incarnation had grown — like all ambitious projects — into something that no single mortal could comprehend. We were asked to unify it."
-          />
-          <Section
-            title="The Approach"
-            body="A single application, a single design system, a single source of truth. Every component re-drawn from first principles."
-          />
-          <Section
-            title="The Outcome"
-            body="A smaller bundle, doubled engagement, and a small standing ovation from the platform team. The client wept; politely."
-          />
-          <Section
-            title="Reflections"
-            body="Constraint is the great editor. We removed several frameworks and gained, in their place, a quiet confidence about the system as a whole."
-          />
+        <div className="grid-2" style={{ marginTop: 38 }}>
+          {(project.sections ?? [
+            {
+              title: 'The Challenge',
+              body: 'The previous incarnation had grown — like all ambitious projects — into something that no single mortal could comprehend. We were asked to unify it.',
+            },
+            {
+              title: 'The Approach',
+              body: 'A single application, a single design system, a single source of truth. Every component re-drawn from first principles.',
+            },
+            {
+              title: 'The Outcome',
+              body: 'A smaller bundle, doubled engagement, and a small standing ovation from the platform team. The client wept; politely.',
+            },
+            {
+              title: 'Reflections',
+              body: 'Constraint is the great editor. We removed several frameworks and gained, in their place, a quiet confidence about the system as a whole.',
+            },
+          ]).map((s) => (
+            <Section key={s.title} title={s.title} body={s.body} />
+          ))}
         </div>
       </div>
     </PageFrame>
+  )
+}
+
+function LinkButton({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        flex: 1,
+        textAlign: 'center',
+        padding: '7px 12px',
+        border: '1px solid var(--teal-deep)',
+        fontFamily: 'var(--font-mono)',
+        fontSize: 9,
+        letterSpacing: '.18em',
+        textTransform: 'uppercase',
+        color: 'var(--teal-deep)',
+        transition: 'background .25s',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'rgba(31,57,70,.08)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'transparent'
+      }}
+    >
+      {label}
+    </a>
   )
 }
 

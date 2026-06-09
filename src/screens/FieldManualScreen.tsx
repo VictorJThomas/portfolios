@@ -1,7 +1,7 @@
 import { TopNav } from '../components/layout/TopNav'
 import { PageFrame } from '../components/layout/PageFrame'
-import { Portrait } from '../components/illustrations/Portrait'
 import { Tape } from '../components/illustrations/Tape'
+import pictureUrl from '../assets/picture.png'
 import type { ScreenId } from '../data/types'
 
 interface Props {
@@ -28,14 +28,9 @@ export function FieldManualScreen({ go }: Props) {
         >
           {/* Header */}
           <div
+            className="fm-header"
             style={{
-              padding: '22px 30px 16px',
               borderBottom: '1px solid var(--teal-deep)',
-              display: 'grid',
-              gridTemplateColumns: '1fr auto 1fr',
-              alignItems: 'center',
-              gap: 16,
-              flexShrink: 0,
             }}
           >
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--teal-deep)', lineHeight: 1.7 }}>
@@ -45,7 +40,7 @@ export function FieldManualScreen({ go }: Props) {
             <h1
               style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(34px, 4.4vw, 64px)',
+                fontSize: 'clamp(22px, 6vw, 64px)',
                 margin: 0,
                 color: 'var(--teal-deep)',
                 letterSpacing: '.02em',
@@ -69,16 +64,7 @@ export function FieldManualScreen({ go }: Props) {
           </div>
 
           {/* Body */}
-          <div
-            style={{
-              flex: 1,
-              overflow: 'auto',
-              padding: '22px 30px 16px',
-              display: 'grid',
-              gridTemplateColumns: 'minmax(220px, 320px) 1fr',
-              gap: 'clamp(16px, 3vw, 36px)',
-            }}
-          >
+          <div className="fm-body">
             {/* Polaroid portrait */}
             <div style={{ position: 'relative', paddingTop: 18, paddingBottom: 18 }}>
               <Tape angle={-12} color="#D89B95" style={{ top: 0, left: -8 }} />
@@ -99,7 +85,11 @@ export function FieldManualScreen({ go }: Props) {
                     overflow: 'hidden',
                   }}
                 >
-                  <Portrait />
+                  <img
+                    src={pictureUrl}
+                    alt="Portrait of Victor J. Thomas"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
                   <div
                     style={{
                       position: 'absolute',
@@ -166,21 +156,21 @@ export function FieldManualScreen({ go }: Props) {
 
               <DossierRow label="Subject">
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 24 }}>
-                  YOUR NAME HERE
+                 VICTOR J. THOMAS
                 </span>
               </DossierRow>
               <DossierRow label="Years Active">
                 <span style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: 19 }}>
-                  12 Years in Field
+                  5 Years in Field
                 </span>
               </DossierRow>
               <DossierRow label="Rank">
                 <span style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontSize: 19 }}>
-                  Senior Architect
+                  Senior Software Engineer
                 </span>
               </DossierRow>
               <DossierRow label="Specialties">
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {['Architecture', 'Scale', 'Refinement'].map((t) => (
                     <span
                       key={t}
@@ -235,7 +225,7 @@ export function FieldManualScreen({ go }: Props) {
                 >
                   Equipment &amp; Tools
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
+                <div className="grid-5">
                   {TOOLS.map((t) => (
                     <div key={t.name} style={{ textAlign: 'center' }}>
                       <div
@@ -268,16 +258,7 @@ export function FieldManualScreen({ go }: Props) {
           </div>
 
           {/* Footer band */}
-          <div
-            style={{
-              padding: '12px 30px',
-              borderTop: '1px solid var(--teal-deep)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexShrink: 0,
-            }}
-          >
+          <div className="fm-footer" style={{ borderTop: '1px solid var(--teal-deep)' }}>
             <div style={{ display: 'flex', gap: 22 }}>
               <button
                 onClick={() => go('home')}
@@ -313,13 +294,9 @@ function DossierRow({
 }) {
   return (
     <div
+      className="fm-dossier-row"
       style={{
-        display: 'grid',
-        gridTemplateColumns: '140px 1fr',
-        gap: 22,
-        padding: '14px 0',
         borderBottom: noBorder ? 'none' : '1px solid var(--teal-deep)55',
-        alignItems: 'start',
       }}
     >
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--teal-deep)', opacity: 0.85 }}>
@@ -331,9 +308,9 @@ function DossierRow({
 }
 
 const TOOLS = [
-  { name: 'React.js', sub: 'v18.0', icon: '{}' },
-  { name: 'Node.js', sub: 'Runtime', icon: '>_' },
-  { name: 'Rust', sub: 'Systems', icon: '☁' },
-  { name: 'SQL', sub: 'Database', icon: '▤' },
-  { name: 'AWS', sub: 'Infra', icon: '◆' },
+  { name: 'React', sub: 'v18 + RN', icon: '⚛' },
+  { name: 'TypeScript', sub: 'ES6+', icon: 'TS' },
+  { name: 'Node.js', sub: 'Express', icon: '>_' },
+  { name: 'PostgreSQL', sub: 'Database', icon: '▤' },
+  { name: 'Next.js', sub: 'App Router', icon: '◆' },
 ]

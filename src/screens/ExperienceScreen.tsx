@@ -13,17 +13,8 @@ export function ExperienceScreen({ go }: Props) {
     <PageFrame bg="var(--forest)" ink="var(--c-cream)">
       <TopNav current="experience" go={go} ink="var(--c-cream)" />
 
-      <div style={{ flex: 1, overflow: 'auto', padding: '38px 64px 40px' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            alignItems: 'end',
-            borderBottom: '1px solid var(--c-cream)',
-            paddingBottom: 20,
-            marginBottom: 38,
-          }}
-        >
+      <div className="screen-scroll screen-pad">
+        <div className="page-header-row" style={{ borderBottomColor: 'var(--c-cream)' }}>
           <div>
             <div
               style={{
@@ -37,14 +28,7 @@ export function ExperienceScreen({ go }: Props) {
             >
               Volume III
             </div>
-            <h1
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(46px, 7.5vw, 110px)',
-                margin: 0,
-                color: 'var(--c-cream)',
-              }}
-            >
+            <h1 className="hero-title" style={{ color: 'var(--c-cream)' }}>
               CHRONICLE
               <br />
               OF SERVICE
@@ -57,7 +41,7 @@ export function ExperienceScreen({ go }: Props) {
               fontSize: 17,
               lineHeight: 1.5,
               paddingLeft: 36,
-              opacity: 0.9,
+              color: 'var(--c-cream)',
             }}
           >
             A truthful account of one engineer's professional employments, in chronological order,
@@ -67,39 +51,20 @@ export function ExperienceScreen({ go }: Props) {
 
         {/* Timeline */}
         <div style={{ position: 'relative' }}>
-          <div
-            style={{
-              position: 'absolute',
-              left: 168,
-              top: 0,
-              bottom: 0,
-              width: 1,
-              background: 'var(--c-cream)',
-              opacity: 0.6,
-            }}
-          />
+          <div className="exp-rail-line" style={{ opacity: 0.6 }} />
           {experience.map((entry, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '152px 32px 1fr',
-                alignItems: 'start',
-                marginBottom: 34,
-              }}
-            >
+            <div key={i} className="exp-row">
               <div
+                className="exp-period"
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: 11,
-                  paddingTop: 8,
-                  textAlign: 'right',
-                  opacity: 0.9,
+                  color: 'var(--c-cream)',
                 }}
               >
                 {entry.period}
               </div>
-              <div style={{ position: 'relative', height: '100%' }}>
+              <div className="exp-dot-cell" style={{ position: 'relative', height: '100%' }}>
                 <div
                   style={{
                     position: 'absolute',
@@ -113,9 +78,9 @@ export function ExperienceScreen({ go }: Props) {
                   }}
                 />
               </div>
-              <div style={{ paddingLeft: 4 }}>
+              <div style={{ paddingLeft: 4, color: 'var(--c-cream)' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 28, margin: 0 }}>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 28, margin: 0, color: 'var(--c-cream)' }}>
                     {entry.role}
                   </h3>
                   <span
@@ -123,13 +88,13 @@ export function ExperienceScreen({ go }: Props) {
                       fontFamily: 'var(--font-body)',
                       fontStyle: 'italic',
                       fontSize: 17,
-                      opacity: 0.85,
+                      color: 'var(--c-cream)',
                     }}
                   >
                     at {entry.company}
                   </span>
                 </div>
-                <ul style={{ paddingLeft: 18, margin: '10px 0 0' }}>
+                <ul style={{ paddingLeft: 18, margin: '10px 0 0', color: 'var(--c-cream)' }}>
                   {entry.bullets.map((b, j) => (
                     <li
                       key={j}
@@ -139,6 +104,7 @@ export function ExperienceScreen({ go }: Props) {
                         lineHeight: 1.5,
                         marginBottom: 4,
                         maxWidth: 640,
+                        color: 'var(--c-cream)',
                       }}
                     >
                       {b}

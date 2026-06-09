@@ -89,17 +89,32 @@ a {
   flex-direction: column;
 }
 
+/* ── Themed scrollbar (soft Wes-Anderson palette) ── */
+.page-inner {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--c-cream-deep) 70%, transparent) transparent;
+}
 .page-inner::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 .page-inner::-webkit-scrollbar-track {
   background: transparent;
+  margin: 6px;
 }
 .page-inner::-webkit-scrollbar-thumb {
-  background: currentColor;
-  opacity: 0.2;
-  border-radius: 4px;
+  background: color-mix(in oklab, var(--c-cream-deep) 70%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.25s;
+}
+.page-inner::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--mustard) 85%, transparent);
+  background-clip: padding-box;
+}
+.page-inner::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* ── Grain overlay ── */
